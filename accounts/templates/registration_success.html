@@ -1,0 +1,13 @@
+{%extends "base.html"%}
+{% block extra_js %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            location.href = "{% url 'index' %}";
+        }, 5000);
+    });
+</script>
+{% endblock %}
+{%block content %}
+    <p class="text-success">Registrations success, you will redirect to home page in 5s seconds</p>
+{%endblock%}

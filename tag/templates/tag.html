@@ -1,0 +1,66 @@
+{%extends "tag_base.html"%}
+{% load staticfiles %}
+{%block extra_js%}
+<script type="text/javascript" src="{% static "js/follow.js" %}"></script>
+{%endblock%}
+{%block title%}Tag: {{tag.name}}{%endblock%}
+
+{%block content%}
+    {%if tag%}
+        <div class="tag_detail">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="{{ MEDIA_URL}}{{tag.image}}"/>
+                </div>
+                <div class="col-md-9">
+                    <h4>{{tag.name}}</h4>
+                    {{tag.description}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span id="followtag" class="btn btn-xs btn-default follow-btn">
+                                {%csrf_token%}            
+                                <input id="tagid" type="hidden" name="tagid" value="{{ tag.pk }}"/>
+                                <span class="glyphicon glyphicon-plus"> </span>
+                                <span class="follow_label">
+                                    {% if following %} Unfollow {% else %} Follow {% endif %}
+                                </span>
+                                <span class="followers_count">({{tag.followers_count}})</span>    
+                            </span>
+                            <div class="followmessage"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Questions: <span class="text-info">{{tag.questions_count}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        </div>
+        {%if questions %}
+            <div class="questions">
+                {%for question in questions%}
+                    <div class="item">
+                        <h4><a href="{% url 'question:detail' question.pk question.slug%}">
+                            {{question.title}}
+                        </a></h4>
+                        <div class="author row">
+                            <div class="col-md-3">
+                                <a href="{% url 'user:profile' question.author.username%}">
+                                    <img src="{{ MEDIA_URL }}/{{question.author.avatar}}"/>
+                                    {{question.author.fullname}}    
+                                </a>  
+                            </div>
+                            <div class="col-md-9">
+                                
+                            </div>
+                        </div>
+                        <p>{{question.content_bref300}}</p>
+                    </div>
+                {%endfor%}
+            </div>
+        {%endif%}
+        
+    {%else%}
+        <p class="text-danger">Tag not exist</p>
+    {%endif%}
+{%endblock%}

@@ -1,0 +1,17 @@
+{%extends "tag_base.html"%}
+{%block title%}All tags{%endblock%}
+{%block content%}
+    {%if tags %}
+        <div class="tags">
+            <h4>All tags</h4>
+            <hr/>
+            {%for tag in tags %}
+                <div class="item">
+                    <a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {%else%}
+        <p class="text-danger">No tags found</p>
+    {%endif%}
+{%endblock%}

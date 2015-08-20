@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    {# title #}
+    <title>{% block title %}{% endblock %}</title>
+    {# css #}
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/hoidap.css" %}">
+    {% block extra_css %}{% endblock %}
+
+    {# javascript #}
+    <script type="text/javascript" src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/hoidap.js" %}"></script>
+    {% block extra_js %}{% endblock %}
+
+    {# metatags #}
+    {% block metatags %}
+        <meta name="description" content="Quora">
+        <meta name="keywords" content="question, answer">
+        <meta name="author" content="Duong Hau">
+    {% endblock%}
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        {% include "include/_header.html"%}
+    </div>
+    <div class="maincontent">
+        <div class="container">
+            <div class="row">
+                <div class="sidebar_left col-md-2">
+                    {%block sidebar_left%}                
+                    {%endblock%}
+                </div>
+                <div class="content col-md-8">
+                    {%block content%}
+                    {%endblock%}
+                </div>
+                <div class="sidebar_right col-md-2">
+                    {%block sidebar_right%}
+                    {%endblock%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        {%block footer%}
+        {%endblock%}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{%block extra_js%}
+<script type="text/javascript" src="{% static "js/follow.js" %}"></script>
+{%endblock%}
+
+{% block title %}Profile{% endblock %}
+
+{% block sidebar_left %}
+{%if profile %}
+    {%if profile.avatar %}
+        <img src="{{ MEDIA_URL}}{{profile.avatar}}"/>
+    {%else%}
+        <img src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+    {%endif%}
+    <hr/>
+    <h4>Infos</h4>
+    <p>Rank: {{profile.rank}}</p>
+    <p><a href="{{profile.website}}">{{profile.website|escape}}</a></p>
+    <p>Address:{{profile.address|escape}}</p>
+    <p>Birthday:{{profile.birthday|escape}}</p>
+    <p>Gender: {{profile.gender|escape}}</p>
+    <hr/>
+    <h4>FEEDS</h4>
+    <p>Questions <span class="text-info">0</span></p>
+    <p>Answers <span class="text-info">0</span></p>
+    <p>Followers <span class="text-info">{{profile.followers_count}}</span></p>
+    <p>Follows <span class="text-info">{{profile.follows_count}}</span></p>
+{%endif%}
+{% endblock %}
+
+{% block content %}
+    {%if profile %}
+        <h3>{{profile.fullname|escape}}</h3>
+        <p>{{profile.bio|escape}}</p>
+            {% if profile.username != user.username %}            
+            <span id="followuser" class="btn btn-xs btn-default follow-btn">
+                {%csrf_token%}          
+                <input id="follow" type="hidden" name="follow" value="{{ profile.username }}"/>
+                <span class="glyphicon glyphicon-plus"> </span>
+                <span class="follow_label">
+                    {% if following %} Unfollow {% else %} Follow {% endif %}
+                </span>
+                <span class="followers_count">({{profile.followers_count}})</span>             
+            </span>
+            <div class="followmessage"></div>
+            {% endif %}
+        <hr/>
+        {%block profile_content%}
+        {%endblock%}
+    {%else%}
+        <p style="text-warning">User not exist</p>
+    {%endif%}    
+{% endblock %}
+{% block sidebar_right %}
+{%if profile %}
+{# {% if profile.interests %}
+    <h4>Interests</h4>
+    {% for tag in profile.interests.all %}
+        <a href="{% url 'tag' tag.name %}">{{tag.name|escape}}</a>
+    {% endfor %}
+{% endif %} #}
+{%endif %}
+{% endblock %}

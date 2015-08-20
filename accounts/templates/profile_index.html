@@ -1,0 +1,28 @@
+{% extends "profile_base.html" %}
+
+{%block profile_content%}
+{%if followers %}
+    <div class="followers follow">
+        <h4>Followers</h4>
+        {%for follower in followers%}
+            <div class="item">
+                <a href="{% url 'user:profile' follower.username %}">
+                    <img src="{{follower.avatar}}"/>
+                    {{follower.username}}
+                </a>
+            </div>
+        {%endfor%}
+    </div>
+{%endif%}
+{%if follows %}
+    <div class="followings follow">
+        <h4>Followings</h4>
+        {%for follow in follows%}
+            <a href="{% url 'user:profile' follow.username %}">
+                <img src="{{follow.avatar}}"/>
+                {{follow.username}}
+            </a>
+        {%endfor%}
+    </div>
+{%endif%}
+{%endblock%}

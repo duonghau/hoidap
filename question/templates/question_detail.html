@@ -1,0 +1,28 @@
+{%extends "question_base.html"%}
+{%block title%}
+    {{question.title}}
+{%endblock%}
+{%block content%}
+    {%if question%}
+        <div class="question">
+            <h4>{{question.title}}</h4>
+            <p>{{question.content}}</p>
+            <p><span class="text-info">Last modify: {{question.modify}}</span></p>
+            <hr/>
+            <div class="social row">
+                <div class="col-md-2">
+                    <span class="upvote">Upvote({{question.votes_count}})</span>
+                </div>
+                <div class="col-md-2">
+                    <span class="downvote">Downvote({{question.downvotes_count}})</span>
+                </div>
+                <div class="col-md-2">
+                    <span class="answers">Answers(0)</span>
+                </div>                
+            </div>
+        </div>
+    {%else%}
+        <p><span class="text-danger">Question is not exist</span></p>
+    {%endif%}
+    
+{%endblock%}
