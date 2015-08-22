@@ -1,1 +1,11 @@
 {%extends "question_base.html"%}
+{%load crispy_forms_tags%}
+{%block title%}Add question{%endblock%}
+{%block content%}
+{%if form%}
+    <h4>Add question</h4>
+    <div class="row">
+        {%crispy form%}
+    </div>
+{%endif%}
+{%endblock%}

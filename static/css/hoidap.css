@@ -1,2 +1,9 @@
 /*body .container{ width: 1000px;}*/
 img{ max-width: 100%; height: auto;}
+.followers_count{text-align: center;
+padding: 0px 0px 0px 6px;
+margin: 0px 0px 0px 6px;
+border-left: 1px solid #fff;
+}
+.user-list .item img{width: 50%; display: block; margin: 0 auto}
+.user-list .item{text-align: center;}

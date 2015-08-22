@@ -1,28 +1,80 @@
 {% extends "profile_base.html" %}
 
 {%block profile_content%}
-{%if followers %}
-    <div class="followers follow">
-        <h4>Followers</h4>
-        {%for follower in followers%}
-            <div class="item">
-                <a href="{% url 'user:profile' follower.username %}">
-                    <img src="{{follower.avatar}}"/>
-                    {{follower.username}}
+{%if profile.followers.all %}
+<h4>Followers</h4>
+    <div class="followers row user-list">        
+        {%for follower in profile.followers.all%}
+            <div class="item col-md-2">
+                <a class="thumb" href="{% url 'user:profile' follower.username %}">
+                    {%if follower.avatar%}
+                        <img class="img-circle"  src="{{ MEDIA_URL }}{{follower.avatar}}"/>
+                    {%else%}
+                        <img class="img-circle"  src="{{ MEDIA_URL }}profiles/noimage.png"/>
+                    {%endif%}                    
                 </a>
+                <a href="{% url 'user:profile' follower.username %}">
+                    {{follower.fullname|escape}}
+                </a>
+                {%if user.is_authenticated%}                
+                {%ifnotequal user.username follower.username%}
+                <div class="follow">
+                    <button class="btn btn-primary btn-xs followuser">
+                        <input type="hidden" name="follow" value="{{ follower.username }}"/>
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="follow_label">
+                            {% if user.profile in follower.followers.all%}
+                                Unfollow
+                            {%else%}
+                                Follow
+                            {%endif%}
+                        </span>
+                        <span class="followers_count">{{follower.followers_count}}</span>
+                    </button>
+                </div>
+                {%endifnotequal%}
+                {%endif%}               
             </div>
         {%endfor%}
     </div>
+    <hr/>
 {%endif%}
-{%if follows %}
-    <div class="followings follow">
-        <h4>Followings</h4>
-        {%for follow in follows%}
-            <a href="{% url 'user:profile' follow.username %}">
-                <img src="{{follow.avatar}}"/>
-                {{follow.username}}
+{%if profile.follows.all %}
+<h4>Followings</h4>
+    <div class="followings row user-list">
+        {%for follow in profile.follows.all%}
+            <div class="item col-md-2">
+            <a class="thumb" href="{% url 'user:profile' follow.username %}">
+                {%if follow.avatar%}
+                        <img class="img-circle"  src="{{ MEDIA_URL }}{{follow.avatar}}"/>
+                    {%else%}
+                        <img class="img-circle"  src="{{ MEDIA_URL }}profiles/noimage.png"/>
+                    {%endif%}                
             </a>
+            <a href="{% url 'user:profile' follow.username %}">
+                {{follow.fullname|escape}}
+            </a>
+            {%if user.is_authenticated%}
+            {%ifnotequal user.username follow.username %}
+            <div class="follow">
+                <button class="btn btn-primary btn-xs followuser">
+                    <input type="hidden" name="follow" value="{{ follow.username }}"/>
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="follow_label">
+                        {% if user.profile in follow.followers.all%}
+                            Unfollow
+                        {%else%}
+                            Follow
+                        {%endif%}
+                    </span>
+                    <span class="followers_count">{{follow.followers_count}}</span>
+                </button>
+            </div>
+            {%endifnotequal%}
+            {%endif%}
+            </div>
         {%endfor%}
     </div>
+    <hr/>
 {%endif%}
 {%endblock%}

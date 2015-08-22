@@ -1,6 +1,7 @@
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from .views import Index
+import settings
 urlpatterns = [
     # Examples:
     # url(r'^$', 'hoidap.views.home', name='home'),
@@ -12,3 +13,12 @@ urlpatterns = [
     url(r'^tag/', include('tag.urls',namespace="tag")),
     url(r'^question/', include('question.urls',namespace="question"))
 ]
+#media files
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}))
+
+#Change title admin    
+admin.site.site_header = "Hoi dap"

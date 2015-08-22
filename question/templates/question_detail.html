@@ -1,25 +1,45 @@
 {%extends "question_base.html"%}
+{% load crispy_forms_tags %}
 {%block title%}
-    {{question.title}}
+    {{question.title|escape}}
 {%endblock%}
 {%block content%}
     {%if question%}
-        <div class="question">
-            <h4>{{question.title}}</h4>
-            <p>{{question.content}}</p>
-            <p><span class="text-info">Last modify: {{question.modify}}</span></p>
+        <div class="question">            
+            <h4>{{question.title|escape}}</h4>            
+            <p>{{question.content|escape}}</p>
+            <p><span class="text-info">Last modify: {{question.modify|escape}}</span></p>
             <hr/>
             <div class="social row">
                 <div class="col-md-2">
-                    <span class="upvote">Upvote({{question.votes_count}})</span>
+                    <span class="upvote">Upvote({{question.votes_count|escape}})</span>
                 </div>
                 <div class="col-md-2">
-                    <span class="downvote">Downvote({{question.downvotes_count}})</span>
+                    <span class="downvote">Downvote({{question.downvotes_count|escape}})</span>
                 </div>
                 <div class="col-md-2">
-                    <span class="answers">Answers(0)</span>
+                    <span class="answers">Answers({{answers.count}})</span>
                 </div>                
             </div>
+            <hr/>
+            {%if answerform%}
+                {% crispy answerform%}
+            {%endif%}
+            {%if answers%}
+                <div class="answers">
+                    {%for answer in answers%}
+                        <div class="item">
+                            <div class="author">
+                                <a href="{% url 'user:profile' answer.author.username%}">
+                                    <img src="{{ MEDIA_URL }}{{answer.author.avatar}}"/>
+                                    {{answer.author.fullname|escape}}    
+                                </a>   
+                            </div>
+                            <p>{{answer.content|escape}}</p>
+                        </div>
+                    {%endfor%}
+                </div>
+            {%endif%}
         </div>
     {%else%}
         <p><span class="text-danger">Question is not exist</span></p>

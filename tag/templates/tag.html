@@ -3,33 +3,42 @@
 {%block extra_js%}
 <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
 {%endblock%}
-{%block title%}Tag: {{tag.name}}{%endblock%}
+{%block title%}Tag: {{tag.name|escape}}{%endblock%}
 
 {%block content%}
     {%if tag%}
         <div class="tag_detail">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{ MEDIA_URL}}{{tag.image}}"/>
+                    {%if tag.image%}
+                        <img class="img-rounded" src="{{ MEDIA_URL}}{{tag.image}}"/>
+                    {%else%}
+                        <img class="img-rounded" src="{{ MEDIA_URL}}tags/noimage_topic.png"/>
+                    {%endif%}
                 </div>
                 <div class="col-md-9">
-                    <h4>{{tag.name}}</h4>
-                    {{tag.description}}
-                    <div class="row">
-                        <div class="col-md-6">
-                            <span id="followtag" class="btn btn-xs btn-default follow-btn">
-                                {%csrf_token%}            
-                                <input id="tagid" type="hidden" name="tagid" value="{{ tag.pk }}"/>
-                                <span class="glyphicon glyphicon-plus"> </span>
+                    <h4>{{tag.name|escape}}</h4>
+                    {%if user.is_authenticated%}
+                        <div class="follow">
+                            <button class="btn btn-primary btn-xs followtag">
+                                <input type="hidden" name="follow" value="{{ tag.pk }}"/>
+                                <span class="glyphicon glyphicon-plus"></span>
                                 <span class="follow_label">
-                                    {% if following %} Unfollow {% else %} Follow {% endif %}
+                                    {% if user.profile in tag.tag_followers.all%}
+                                        Unfollow
+                                    {%else%}
+                                        Follow
+                                    {%endif%}
                                 </span>
-                                <span class="followers_count">({{tag.followers_count}})</span>    
-                            </span>
-                            <div class="followmessage"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <p>Questions: <span class="text-info">{{tag.questions_count}}</span></p>
+                                <span class="followers_count">{{tag.followers_count}}</span>
+                            </button>
+                        </div>            
+                    {% endif %}
+                    <hr/>                 
+                    {{tag.description|escape}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Questions: <span class="text-info">{{tag.questions_count|escape}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -41,13 +50,13 @@
                 {%for question in questions%}
                     <div class="item">
                         <h4><a href="{% url 'question:detail' question.pk question.slug%}">
-                            {{question.title}}
+                            {{question.title|escape}}
                         </a></h4>
                         <div class="author row">
                             <div class="col-md-3">
                                 <a href="{% url 'user:profile' question.author.username%}">
-                                    <img src="{{ MEDIA_URL }}/{{question.author.avatar}}"/>
-                                    {{question.author.fullname}}    
+                                    <img src="{{ MEDIA_URL }}{{question.author.avatar}}"/>
+                                    {{question.author.fullname|escape}}    
                                 </a>  
                             </div>
                             <div class="col-md-9">

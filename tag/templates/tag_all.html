@@ -5,11 +5,16 @@
         <div class="tags">
             <h4>All tags</h4>
             <hr/>
+            <div class="row">
             {%for tag in tags %}
-                <div class="item">
-                    <a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>
+                <div class="item col-md-3">
+                    <h4><a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name|escape}}</a><span>({{tag.followers_count}})</span></h4>
+                    <span class="questions_count">
+                        Questions: {{tag.questions_count}}
+                    </span>
                 </div>
             {% endfor %}
+             </div>
         </div>
     {%else%}
         <p class="text-danger">No tags found</p>

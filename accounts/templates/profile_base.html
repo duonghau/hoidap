@@ -9,9 +9,9 @@
 {% block sidebar_left %}
 {%if profile %}
     {%if profile.avatar %}
-        <img src="{{ MEDIA_URL}}{{profile.avatar}}"/>
+        <img class="img-circle" src="{{ MEDIA_URL}}{{profile.avatar}}"/>
     {%else%}
-        <img src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+        <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
     {%endif%}
     <hr/>
     <h4>Infos</h4>
@@ -30,20 +30,25 @@
 {% endblock %}
 
 {% block content %}
+    {%csrf_token%}
     {%if profile %}
         <h3>{{profile.fullname|escape}}</h3>
         <p>{{profile.bio|escape}}</p>
-            {% if profile.username != user.username %}            
-            <span id="followuser" class="btn btn-xs btn-default follow-btn">
-                {%csrf_token%}          
-                <input id="follow" type="hidden" name="follow" value="{{ profile.username }}"/>
-                <span class="glyphicon glyphicon-plus"> </span>
-                <span class="follow_label">
-                    {% if following %} Unfollow {% else %} Follow {% endif %}
-                </span>
-                <span class="followers_count">({{profile.followers_count}})</span>             
-            </span>
-            <div class="followmessage"></div>
+            {% if profile.username != user.username and user.is_authenticated%}
+            <div class="follow">
+                <button class="btn btn-primary btn-xs followuser">
+                    <input type="hidden" name="follow" value="{{ profile.username }}"/>
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="follow_label">
+                        {% if user.profile in profile.followers.all%}
+                            Unfollow
+                        {%else%}
+                            Follow
+                        {%endif%}
+                    </span>
+                    <span class="followers_count">{{profile.followers_count}}</span>
+                </button>
+            </div>            
             {% endif %}
         <hr/>
         {%block profile_content%}

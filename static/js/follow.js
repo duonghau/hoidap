@@ -1,11 +1,14 @@
 $(document).ready(function() {
     // follow
-    $("#followuser").click(function(e) {
-        e.preventDefault();
-        var username=$('#follow').val();
-        var data = {
-            'username': username
-        }
+    $('button.followuser').on('click', function(event) {
+        event.preventDefault();
+        var button=$(this);
+        var div_parent=button.parent();
+        div_parent.find('span.message').remove();
+        var username=$(this).find('input[name="follow"]').val();
+        var follow_label=$(this).find('span.follow_label');
+        var followers_count=$(this).find('span.followers_count');                
+        var data={'username':username}
         $.ajax({
             "type": "POST",
             "dataType": "json",
@@ -13,21 +16,23 @@ $(document).ready(function() {
             "data": data,
             "success": function(result) {
                 if(result.status=='OK'){
-                    $('.follow_label').html(result.label);
-                    $('.followers_count').html('('+result.followers_count+')');
-                    $('.followmessage').html('');
-                }else{
-                    $('.followmessage').html('<span class="text-danger">'+result.message+'</span>');
-                }                
+                    follow_label.html(result.label);
+                    followers_count.html(result.followers_count);                    
+                }else{                    
+                    div_parent.append('<span class="text-danger message">'+result.message+'</span>');
+                }
             },
         });
     });
-    $("#followtag").click(function(e) {
-        e.preventDefault();
-        var tagid=$('#tagid').val();
-        var data = {
-            'tagid': tagid
-        }
+    $("button.followtag").on('click', function(event) {
+        event.preventDefault();
+        var button=$(this);
+        var div_parent=button.parent();
+        div_parent.find('span.message').remove();
+        var tagid=$(this).find('input[name="follow"]').val();
+        var follow_label=$(this).find('span.follow_label');
+        var followers_count=$(this).find('span.followers_count');
+        var data={'tagid': tagid}
         $.ajax({
             "type": "POST",
             "dataType": "json",
@@ -35,11 +40,10 @@ $(document).ready(function() {
             "data": data,
             "success": function(result) {
                 if(result.status=='OK'){
-                    $('.follow_label').html(result.label);
-                    $('.followers_count').html('('+result.followers_count+')');
-                    $('.followmessage').html('');
+                    follow_label.html(result.label);
+                    followers_count.html(result.followers_count);                    
                 }else{
-                    $('.followmessage').html('<span class="text-danger">'+result.message+'</span>');
+                    div_parent.append('<span class="text-danger message">'+result.message+'</span>');
                 }                
             },
         });
