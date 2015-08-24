@@ -1,5 +1,6 @@
+import json
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.views.generic import View
@@ -29,8 +30,6 @@ class AddQuestionView(LoginRequiredMixin,View):
     def get(self,request):
         args={}
         args.update(csrf(request))
-        form=QuestionForm()
-        args['form']=form
         return render(request, 'question_add.html', args)
     
     def post(self,request):
@@ -64,6 +63,47 @@ class AddAnswerView(LoginRequiredMixin,View):
                     pass
         return HttpResponseRedirect(reverse('question:detail',args=(questionid, slug)))
 
-
-
+class VoteView(View):
+    def post(self, request):
+        message={}
+        if request.user.is_authenticated():
+            objectid=request.POST.get('objectid','')
+            objecttype=request.POST.get('objecttype','')
+            votetype=request.POST.get('votetype','')
+            if objectid and objecttype and votetype:
+                if objecttype=='question':
+                    currentobject=Question.objects.get(pk=objectid);
+                elif objecttype=='answer':
+                    currentobject=Answer.objects.get(pk=objectid);
+                if currentobject:
+                    if votetype=="vote":
+                        if request.user.profile in currentobject.votes.all():
+                            message['status']='False'
+                            message['message']="You can vote only one time"
+                        else:
+                            currentobject.votes.add(request.user.profile)
+                            currentobject.save()
+                            message['status']='OK'
+                            message['message']=""
+                            message['votes_count']=currentobject.votes_count
+                    elif votetype=="downvote":
+                        if request.user.profile in currentobject.downvotes.all():
+                            message['status']='False'
+                            message['message']="You can downvote only one time"
+                        else:
+                            currentobject.downvotes.add(request.user.profile)
+                            currentobject.save()
+                            message['status']='OK'
+                            message['message']=""
+                            message['votes_count']=currentobject.downvotes_count
+                else:
+                    message['status']='False'
+                    message['message']="{} isn't exist".format(objecttype)
+            else:
+                message['status']='False'
+                message['message']='Informations is incorrect'
+        else:
+            message['status']='False'
+            message['message']='You must login for this action'
+        return HttpResponse(json.dumps(message), content_type = "application/json")
 

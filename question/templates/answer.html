@@ -1,0 +1,45 @@
+<li class="answer item row">
+    <div class="author col-md-1">
+        <a class="thumb" href="{% url 'user:profile' answer.author.username%}">
+            {%if answer.author.avatar %}
+                <img class="img-circle" src="{{ MEDIA_URL}}{{answer.author.avatar}}"/>
+            {%else%}
+                <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+            {%endif%}             
+        </a>     
+    </div>
+    <div class="col-md-11">
+        <a href="{% url 'user:profile' answer.author.username%}">
+            {{answer.author.fullname|escape}}
+        </a>
+        <div class="answer-content">
+            <p>{{answer.content|escape}}</p>
+        </div>
+        <div class="social row">
+            <div class="col-md-2 vote">
+                <button class="btn btn-primary btn-xs vote">
+                    <input type="hidden" name="objectid" value="{{ answer.pk }}"/>
+                    <input type="hidden" name="votetype" value="vote"/>
+                    <input type="hidden" name="objecttype" value="answer"/>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <span class="follow_label">
+                    Vote
+                    </span>
+                    <span class="votes_count">{{answer.votes_count}}</span>
+                </button>  
+            </div>
+            <div class="col-md-2 vote">
+                <button class="btn btn-primary btn-xs vote">
+                    <input type="hidden" name="objectid" value="{{ answer.pk }}"/>
+                    <input type="hidden" name="votetype" value="downvote"/>
+                    <input type="hidden" name="objecttype" value="answer"/>
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                    <span class="follow_label">
+                    Downvote
+                    </span>
+                    <span class="votes_count">{{answer.downvotes_count}}</span>
+                </button>
+            </div>
+        </div>
+    </div>    
+</li>

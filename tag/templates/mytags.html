@@ -1,0 +1,11 @@
+<div class="widget-title">
+    <h4>Feeds<a class="pull-right" href="#" id="edit_mytags"><span>Edit</span></a></h4>
+</div>
+<ul class="list-group" id="mytags">
+{%for tag in tags%}
+    <li class="list-group-item">
+    <a data="{{tag.pk}}" class="tagtitle" href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>
+    <a title="Remove this tag" class="remove_tag" href="#">x</a>
+    </li>
+{%endfor%}
+</ul>

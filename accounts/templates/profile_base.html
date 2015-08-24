@@ -22,8 +22,8 @@
     <p>Gender: {{profile.gender|escape}}</p>
     <hr/>
     <h4>FEEDS</h4>
-    <p>Questions <span class="text-info">0</span></p>
-    <p>Answers <span class="text-info">0</span></p>
+    <p>Questions <span class="text-info">{{profile.questions_count}}</span></p>
+    <p>Answers <span class="text-info">{{profile.answers_count}}</span></p>
     <p>Followers <span class="text-info">{{profile.followers_count}}</span></p>
     <p>Follows <span class="text-info">{{profile.follows_count}}</span></p>
 {%endif%}

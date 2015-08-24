@@ -1,0 +1,57 @@
+<div class="item question">
+    <h4><a href="{% url 'question:detail' question.pk question.slug%}">
+        {{question.title|escape}}
+    </a></h4>
+    <div class="author">
+        <a class="thumb" href="{% url 'user:profile' question.author.username%}">
+            {%if question.author.avatar %}
+                <img class="img-circle" src="{{ MEDIA_URL}}{{question.author.avatar}}"/>
+            {%else%}
+                <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+            {%endif%}                
+        </a>       
+        <a href="{% url 'user:profile' question.author.username%}">
+            {{question.author.fullname|escape}}    
+        </a>
+    </div>
+    <p>{{question.content_bref300}}</p>
+    <div class="social row">
+        <div class="col-md-2 vote">
+            <button class="btn btn-primary btn-xs vote">
+                <input type="hidden" name="objectid" value="{{ question.pk }}"/>
+                <input type="hidden" name="votetype" value="vote"/>
+                <input type="hidden" name="objecttype" value="question"/>
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                <span class="follow_label">
+                Vote
+                </span>
+                <span class="votes_count">{{question.votes_count}}</span>
+            </button>  
+        </div>
+        <div class="col-md-2 vote">
+            <button class="btn btn-primary btn-xs vote">
+                <input type="hidden" name="objectid" value="{{ question.pk }}"/>
+                <input type="hidden" name="votetype" value="downvote"/>
+                <input type="hidden" name="objecttype" value="question"/>
+                <span class="glyphicon glyphicon-thumbs-down"></span>
+                <span class="follow_label">
+                Downvote
+                </span>
+                <span class="votes_count">{{question.downvotes_count}}</span>
+            </button>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'question:detail' question.pk question.slug %}#comment" class="btn btn-link btn-xs">
+            <span class="glyphicon glyphicon-comment"></span> Comment({{question.question_answers.all.count}})
+            </a>
+        </div>
+        <div class="col-md-6">
+            {%if question.tags.all%}
+                <span class="glyphicon glyphicon-tags"></span> :
+                {%for tag in question.tags.all%}
+                    <a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>,
+                {%endfor%}
+            {%endif%}
+        </div>
+    </div>
+</div>

@@ -1,43 +1,87 @@
 {%extends "question_base.html"%}
 {% load crispy_forms_tags %}
+{%load question_template%}
 {%block title%}
     {{question.title|escape}}
 {%endblock%}
 {%block content%}
     {%if question%}
-        <div class="question">            
-            <h4>{{question.title|escape}}</h4>            
+        <div class="question_detail question">            
+            <h4>{{question.title|escape}}</h4>
+            <div class="author">
+                <a class="thumb" href="{% url 'user:profile' question.author.username%}">
+                    {%if question.author.avatar %}
+                        <img class="img-circle" src="{{ MEDIA_URL}}{{question.author.avatar}}"/>
+                    {%else%}
+                        <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+                    {%endif%}                
+                </a>       
+                <a href="{% url 'user:profile' question.author.username%}">
+                    {{question.author.fullname|escape}}    
+                </a>
+            </div>         
             <p>{{question.content|escape}}</p>
-            <p><span class="text-info">Last modify: {{question.modify|escape}}</span></p>
+            <p><span class="text-info"><small>Last modify: {{question.modify|escape}}</small></span></p>
             <hr/>
             <div class="social row">
-                <div class="col-md-2">
-                    <span class="upvote">Upvote({{question.votes_count|escape}})</span>
+                <div class="col-md-2 vote">
+                    <button class="btn btn-primary btn-xs vote">
+                        <input type="hidden" name="objectid" value="{{ question.pk }}"/>
+                        <input type="hidden" name="votetype" value="vote"/>
+                        <input type="hidden" name="objecttype" value="question"/>
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span class="follow_label">
+                        Vote
+                        </span>
+                        <span class="votes_count">{{question.votes_count}}</span>
+                    </button>  
+                </div>
+                <div class="col-md-2 vote">
+                    <button class="btn btn-primary btn-xs vote">
+                        <input type="hidden" name="objectid" value="{{ question.pk }}"/>
+                        <input type="hidden" name="votetype" value="downvote"/>
+                        <input type="hidden" name="objecttype" value="question"/>
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span class="follow_label">
+                        Downvote
+                        </span>
+                        <span class="votes_count">{{question.downvotes_count}}</span>
+                    </button>
                 </div>
                 <div class="col-md-2">
-                    <span class="downvote">Downvote({{question.downvotes_count|escape}})</span>
+                    <a href="{% url 'question:detail' question.pk question.slug %}#comment" class="btn btn-link btn-xs">
+                    <span class="glyphicon glyphicon-comment"></span> Comment({{question.question_answers.all.count}})
+                    </a>
                 </div>
-                <div class="col-md-2">
-                    <span class="answers">Answers({{answers.count}})</span>
-                </div>                
+                <div class="col-md-6">
+                    {%if question.tags.all%}
+                        <span class="glyphicon glyphicon-tags"></span> :
+                        {%for tag in question.tags.all%}
+                            <a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>,
+                        {%endfor%}
+                    {%endif%}
+                </div>
             </div>
-            <hr/>
-            {%if answerform%}
-                {% crispy answerform%}
-            {%endif%}
+            <hr/>            
             {%if answers%}
-                <div class="answers">
-                    {%for answer in answers%}
-                        <div class="item">
-                            <div class="author">
-                                <a href="{% url 'user:profile' answer.author.username%}">
-                                    <img src="{{ MEDIA_URL }}{{answer.author.avatar}}"/>
-                                    {{answer.author.fullname|escape}}    
-                                </a>   
-                            </div>
-                            <p>{{answer.content|escape}}</p>
+                <div class="answers detailBox">
+                    <div class="titleBox">
+                      <label>Answers</label>
+                    </div>                    
+                    {%if answerform%}
+                        <div class="commentBox">
+                            {% crispy answerform%}
+                        </div>                        
+                    {%endif%}
+                    {%if answers%}
+                        <div class="actionBox">
+                            <ul class="commentList">
+                                {%for answer in answers%}
+                                    {%display_answer answer%}
+                                {%endfor%}
+                            </ul>   
                         </div>
-                    {%endfor%}
+                    {%endif%}   
                 </div>
             {%endif%}
         </div>

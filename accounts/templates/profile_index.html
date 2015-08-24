@@ -1,80 +1,35 @@
 {% extends "profile_base.html" %}
-
+{%load user_template %}
 {%block profile_content%}
 {%if profile.followers.all %}
 <h4>Followers</h4>
-    <div class="followers row user-list">        
-        {%for follower in profile.followers.all%}
-            <div class="item col-md-2">
-                <a class="thumb" href="{% url 'user:profile' follower.username %}">
-                    {%if follower.avatar%}
-                        <img class="img-circle"  src="{{ MEDIA_URL }}{{follower.avatar}}"/>
-                    {%else%}
-                        <img class="img-circle"  src="{{ MEDIA_URL }}profiles/noimage.png"/>
-                    {%endif%}                    
-                </a>
-                <a href="{% url 'user:profile' follower.username %}">
-                    {{follower.fullname|escape}}
-                </a>
-                {%if user.is_authenticated%}                
-                {%ifnotequal user.username follower.username%}
-                <div class="follow">
-                    <button class="btn btn-primary btn-xs followuser">
-                        <input type="hidden" name="follow" value="{{ follower.username }}"/>
-                        <span class="glyphicon glyphicon-plus"></span>
-                        <span class="follow_label">
-                            {% if user.profile in follower.followers.all%}
-                                Unfollow
-                            {%else%}
-                                Follow
-                            {%endif%}
-                        </span>
-                        <span class="followers_count">{{follower.followers_count}}</span>
-                    </button>
-                </div>
-                {%endifnotequal%}
-                {%endif%}               
-            </div>
-        {%endfor%}
-    </div>
+    {% list_users profile.followers.all%}    
     <hr/>
 {%endif%}
 {%if profile.follows.all %}
 <h4>Followings</h4>
-    <div class="followings row user-list">
-        {%for follow in profile.follows.all%}
-            <div class="item col-md-2">
-            <a class="thumb" href="{% url 'user:profile' follow.username %}">
-                {%if follow.avatar%}
-                        <img class="img-circle"  src="{{ MEDIA_URL }}{{follow.avatar}}"/>
-                    {%else%}
-                        <img class="img-circle"  src="{{ MEDIA_URL }}profiles/noimage.png"/>
-                    {%endif%}                
-            </a>
-            <a href="{% url 'user:profile' follow.username %}">
-                {{follow.fullname|escape}}
-            </a>
-            {%if user.is_authenticated%}
-            {%ifnotequal user.username follow.username %}
-            <div class="follow">
-                <button class="btn btn-primary btn-xs followuser">
-                    <input type="hidden" name="follow" value="{{ follow.username }}"/>
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="follow_label">
-                        {% if user.profile in follow.followers.all%}
-                            Unfollow
-                        {%else%}
-                            Follow
-                        {%endif%}
-                    </span>
-                    <span class="followers_count">{{follow.followers_count}}</span>
-                </button>
-            </div>
-            {%endifnotequal%}
-            {%endif%}
+    {% list_users profile.follows.all%}    
+    <hr/>
+{%endif%}
+{%if profile.user_questions%}
+    <h4>Questions</h4>
+    <div class="questions">
+        {%for question in profile.user_questions.all%}
+            <div class="item">
+                <a href="{% url 'question:detail' question.pk question.slug %}">{{question.title}}</a>
             </div>
         {%endfor%}
     </div>
-    <hr/>
+{%endif%}
+{%if profile.user_answers%}
+    <h4>Answers</h4>
+    <div class="answers">
+        {%for answer in profile.user_answers.all%}
+            <div class="item">
+            Answer on:
+                <a href="{% url 'question:detail' answer.question.pk answer.question.slug %}">{{answer.question.title}}</a>
+            </div>
+        {%endfor%}
+    </div>
 {%endif%}
 {%endblock%}

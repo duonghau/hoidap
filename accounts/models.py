@@ -28,6 +28,14 @@ class UserProfile(models.Model):
     @property
     def username(self):
         return self.user.username
+        
+    @property
+    def questions_count(self):
+        return self.user_questions.all().count()
+
+    @property
+    def answers_count(self):
+        return self.user_answers.all().count()
 
     def __str__(self):
         return self.user.username

@@ -1,1 +1,12 @@
 {%extends "base.html"%}
+{%load tag_template%}
+{%load user_template%}
+{%block sidebar_left%}
+    {%if user.is_authenticated%}
+    {%mytags%}
+    {%endif%}
+    {%toptags%}
+{%endblock%}
+{%block sidebar_right%}
+    {% top_users %}
+{%endblock%}

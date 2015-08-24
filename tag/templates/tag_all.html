@@ -1,5 +1,9 @@
 {%extends "tag_base.html"%}
+{% load staticfiles %}
 {%block title%}All tags{%endblock%}
+{%block extra_js%}
+    <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
+{%endblock%}
 {%block content%}
     {%if tags %}
         <div class="tags">
@@ -8,10 +12,26 @@
             <div class="row">
             {%for tag in tags %}
                 <div class="item col-md-3">
-                    <h4><a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name|escape}}</a><span>({{tag.followers_count}})</span></h4>
+                    <h4><a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name|escape}}</a></h4>
                     <span class="questions_count">
                         Questions: {{tag.questions_count}}
                     </span>
+                    {%if user.is_authenticated%}
+                        <div class="follow">
+                            <button class="btn btn-primary btn-xs followtag">
+                                <input type="hidden" name="follow" value="{{ tag.pk }}"/>
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <span class="follow_label">
+                                    {% if user.profile in tag.tag_followers.all%}
+                                        Unfollow
+                                    {%else%}
+                                        Follow
+                                    {%endif%}
+                                </span>
+                                <span class="followers_count">{{tag.followers_count}}</span>
+                            </button>
+                        </div>            
+                    {% endif %}
                 </div>
             {% endfor %}
              </div>

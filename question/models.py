@@ -27,10 +27,10 @@ class CommonFields(models.Model):
 class Question(CommonFields):
     title=models.CharField(blank=False, max_length=255)
     author=models.ForeignKey(UserProfile, related_name='user_questions')
-    tags=models.ManyToManyField(Tag, related_name='tag_questions')    
+    tags=models.ManyToManyField(Tag, related_name='tag_questions') 
     slug=models.SlugField(blank=True)
-    # votes=models.ManyToManyField(UserProfile, related_name='user_question_votes')
-    # downvotes=models.ManyToManyField(UserProfile, related_name='user_question_downvotes')
+    votes=models.ManyToManyField(UserProfile, related_name='user_question_votes')
+    downvotes=models.ManyToManyField(UserProfile, related_name='user_question_downvotes')
     
     def __str__(self):
         return self.title
@@ -38,6 +38,9 @@ class Question(CommonFields):
     def save(self,*args,**kwargs):
         if not self.pk:
             self.slug=slugify(self.title)
+        if self.pk:
+            self.votes_count=self.votes.all().count()
+            self.downvotes_count=self.downvotes.all().count()
         super(Question,self).save(*args,**kwargs)
 
     def get_absolute_url(self):
@@ -46,8 +49,14 @@ class Question(CommonFields):
 class Answer(CommonFields):
     author=models.ForeignKey(UserProfile, related_name='user_answers')
     question=models.ForeignKey(Question, related_name='question_answers')
-    # votes=models.ManyToManyField(UserProfile, related_name='user_answer_votes')
-    # downvotes=models.ManyToManyField(UserProfile, related_name='user_answer_downvotes')
+    votes=models.ManyToManyField(UserProfile, related_name='user_answer_votes')
+    downvotes=models.ManyToManyField(UserProfile, related_name='user_answer_downvotes')
     
     def __str__(self):
         return self.content[:100]
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            self.votes_count=self.votes.all().count()
+            self.downvotes_count=self.downvotes.all().count()        
+        super(Answer,self).save(*args,**kwargs)

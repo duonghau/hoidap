@@ -1,4 +1,6 @@
+import json
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.views.generic import View
 from .models import Tag
@@ -37,4 +39,11 @@ class AddTagView(View):
             message['status']="False"
             message['message']="You are not login. Please login to continue"
 
-        
+class TagSearchAjaxView(View):
+    def post(self, request):
+        term=request.POST.get('term','')
+        terms={}
+        tags=Tag.objects.filter(name__contains=term)
+        for tag in tags:
+            terms.update({tag.id:tag.name})
+        return HttpResponse(json.dumps(terms), content_type = "application/json")

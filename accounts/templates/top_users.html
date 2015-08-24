@@ -1,0 +1,11 @@
+{%if profiles %}
+    <h4>Top users</h4>
+    <div class="top-users">
+        {%for profile in profiles%}
+            <div class="item">
+                <a href="{% url 'user:profile' profile.username %}">{{profile.fullname}}</a>
+                <span class="badge">{{profile.rank}}</span>
+            </div>
+        {%endfor%}
+    </div>
+{%endif%}

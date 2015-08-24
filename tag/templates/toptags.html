@@ -1,0 +1,10 @@
+{%if tags%}
+    <div class="widget-title">
+        <h4>Top topics<a class="pull-right" href="{% url 'tag:all' %}"><span>All</span></a></h4>       
+    </div>    
+    <ul class="list-group">
+    {%for tag in tags%}
+        <li class="list-group-item"><a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a><span class="badge">{{tag.followers_count}}</span></li>
+    {%endfor%}
+    </ul>
+{%endif%}

@@ -1,9 +1,81 @@
 /*body .container{ width: 1000px;}*/
 img{ max-width: 100%; height: auto;}
-.followers_count{text-align: center;
+.votes_count,.downvotes_count,.followers_count{text-align: center;
 padding: 0px 0px 0px 6px;
 margin: 0px 0px 0px 6px;
 border-left: 1px solid #fff;
 }
-.user-list .item img{width: 50%; display: block; margin: 0 auto}
+.user-list .item img{width: 50%; height: auto; display: block; margin: 0 auto}
 .user-list .item{text-align: center;}
+.question .author .thumb img{width: 30px; height: 30px; margin-right: 10px;}
+.question .author .thumb img{width: 30px; height: 30px; margin-right: 10px;}
+.question .author{margin-bottom: 5px;}
+.question_detail .author .thumb img{width: 40px; height: 40px;}
+.question{ margin-bottom: 20px;}
+.tag_detail .des{margin-bottom: 10px;}
+#addquestion{margin-top: 8px;}
+#mytags .list-group-item{ position: relative;}
+#mytags a.remove_tag{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    display: none;
+}
+.answer.item{ margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom:1px dotted #bbb;
+}
+.detailBox {
+    width:100%;
+    border:1px solid #bbb;
+    margin-bottom: 20px;
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+/*.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}*/
+.actionBox .form-group * {
+    width:100%;
+}
+.taskDescription {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+}
+span.ui-helper-hidden-accessible{display: none}

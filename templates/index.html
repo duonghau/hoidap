@@ -1,10 +1,22 @@
 {%extends "base.html"%}
+{%load tag_template%}
+{%load user_template%}
+{%load question_template%}
 {%block sidebar_left%}
-left
+{%if user.is_authenticated%}
+{%mytags%}
+{%endif%}
+{%toptags%}
 {%endblock%}
 {%block sidebar_right%}
-right
+{% top_users %}
 {%endblock%}
 {%block content%}
-content
+{%if questions%}
+    <div class="questions">
+    {%for question in questions%}
+        {%display_question question%}
+    {%endfor%}
+    </div>
+{%endif%}
 {%endblock%}

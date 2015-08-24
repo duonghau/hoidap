@@ -1,0 +1,35 @@
+{% load static %}
+<div class="row user-list">        
+    {%for profile in profiles%}
+        <div class="item col-md-2">
+            <a class="thumb" href="{% url 'user:profile' profile.username %}">
+                {%if profile.avatar%}
+                    <img class="img-circle"  src="{{ MEDIA_URL }}{{profile.avatar}}"/>
+                {%else%}
+                    <img class="img-circle"  src="{{ MEDIA_URL }}profiles/noimage.png"/>
+                {%endif%}                    
+            </a>
+            <a href="{% url 'user:profile' profile.username %}">
+                {{profile.fullname|escape}}
+            </a>
+            {%if user.is_authenticated%}                
+            {%ifnotequal user.username profile.username%}
+            <div class="follow">
+                <button class="btn btn-primary btn-xs followuser">
+                    <input type="hidden" name="follow" value="{{ profile.username }}"/>
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="follow_label">
+                        {% if user.profile in profile.followers.all%}
+                            Unfollow
+                        {%else%}
+                            Follow
+                        {%endif%}
+                    </span>
+                    <span class="followers_count">{{profile.followers_count}}</span>
+                </button>
+            </div>
+            {%endifnotequal%}
+            {%endif%}               
+        </div>
+    {%endfor%}
+</div>

@@ -1,10 +1,10 @@
 {%extends "tag_base.html"%}
+{%load question_template %}
 {% load staticfiles %}
 {%block extra_js%}
 <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
 {%endblock%}
 {%block title%}Tag: {{tag.name|escape}}{%endblock%}
-
 {%block content%}
     {%if tag%}
         <div class="tag_detail">
@@ -34,13 +34,10 @@
                             </button>
                         </div>            
                     {% endif %}
-                    <hr/>                 
-                    {{tag.description|escape}}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>Questions: <span class="text-info">{{tag.questions_count|escape}}</span></p>
-                        </div>
-                    </div>
+                    <div class="des">{{tag.description|escape}}</div>
+                    <div class="questions_count">
+                        <p>Questions: <span class="text-info">{{tag.questions_count|escape}}</span></p>
+                    </div>              
                 </div>
             </div>
             <hr/>
@@ -48,23 +45,7 @@
         {%if questions %}
             <div class="questions">
                 {%for question in questions%}
-                    <div class="item">
-                        <h4><a href="{% url 'question:detail' question.pk question.slug%}">
-                            {{question.title|escape}}
-                        </a></h4>
-                        <div class="author row">
-                            <div class="col-md-3">
-                                <a href="{% url 'user:profile' question.author.username%}">
-                                    <img src="{{ MEDIA_URL }}{{question.author.avatar}}"/>
-                                    {{question.author.fullname|escape}}    
-                                </a>  
-                            </div>
-                            <div class="col-md-9">
-                                
-                            </div>
-                        </div>
-                        <p>{{question.content_bref300}}</p>
-                    </div>
+                    {%display_question question%}                    
                 {%endfor%}
             </div>
         {%endif%}

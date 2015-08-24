@@ -85,13 +85,6 @@ class ProfileView(View):
                 if user==request.user:
                     return HttpResponseRedirect(reverse('user:myprofile'))
                 profile=user.profile
-                # followers=profile.followers.all()
-                # follows=profile.follows.all()
-                # args['followers']=followers
-                # args['follows']=follows                
-                # if request.user.is_authenticated():
-                #     if request.user.profile in followers:
-                #         args['following']=True
                 args['profile']=profile
             except User.DoesNotExist:
                 pass                
