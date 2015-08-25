@@ -15,7 +15,7 @@ class TagView(View):
             tag=Tag.objects.get(pk=tagid)
             #get questions
             if tag:
-                questions=tag.tag_questions.all().order_by("-create")
+                questions=tag.tag_questions.filter(is_active=True).order_by("-create")
                 args['questions']=questions
             if request.user.is_authenticated():
                 if request.user.profile in tag.tag_followers.all():

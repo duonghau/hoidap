@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'accounts',
     'question',
     'tag',
+    'messenger',
+    'notification',
 )
 
 MIDDLEWARE_CLASSES = (

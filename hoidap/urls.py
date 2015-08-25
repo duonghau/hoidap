@@ -11,7 +11,8 @@ urlpatterns = [
     url(r'^$',Index.as_view(), name="index"),
     url(r'^user/',include('accounts.urls', namespace="user")),
     url(r'^tag/', include('tag.urls',namespace="tag")),
-    url(r'^question/', include('question.urls',namespace="question"))
+    url(r'^question/', include('question.urls',namespace="question")),
+    url(r'^message/', include('messenger.urls', namespace="message")),
 ]
 #media files
 if settings.DEBUG:

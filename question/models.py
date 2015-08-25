@@ -28,7 +28,7 @@ class Question(CommonFields):
     title=models.CharField(blank=False, max_length=255)
     author=models.ForeignKey(UserProfile, related_name='user_questions')
     tags=models.ManyToManyField(Tag, related_name='tag_questions') 
-    slug=models.SlugField(blank=True)
+    slug=models.SlugField(blank=True, max_length=255)
     votes=models.ManyToManyField(UserProfile, related_name='user_question_votes')
     downvotes=models.ManyToManyField(UserProfile, related_name='user_question_downvotes')
     
