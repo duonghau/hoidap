@@ -1,0 +1,22 @@
+{%if notifications%}
+    <div id="notifications" class="ajax-notification">
+    {%for notification in notifications%}
+        <div class="notification item {%if not notification.is_read %}unread{%endif%}">
+            <a class="thumb" href="{% url 'notification:view' notification.pk %}">
+                {%if notification.sender.avatar %}
+                    <img class="img-circle" src="{{ MEDIA_URL}}{{notification.sender.avatar}}"/>
+                {%else%}
+                    <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+                {%endif%}
+            </a>
+            <a class="title" href="{% url 'notification:view' notification.pk %}">
+                <div>{{notification.notification_string}}</div>
+                <div><small>{{notification.create}}</small></div>
+            </a>
+            <div class="clear"></div>
+        </div>
+    {%endfor%}
+    </div>
+{%else%}
+<p>No results found<p>
+{%endif%}

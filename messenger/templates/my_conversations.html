@@ -1,0 +1,20 @@
+<div class="recent-conversation">
+    <h4>Recent conversations</h4>
+    {%if conversations%}
+        <div class="conversations">
+            {%for conversation in conversations%}
+                <div class="item">
+                    {%ifequal profile conversation.user_one%}
+                    <a href="{% url 'message:view_conversation' conversation.user_two.username%}">
+                        {{conversation.user_two.fullname}}
+                    </a>
+                    {%else%}
+                    <a href="{% url 'message:view_conversation' conversation.user_one.username%}">
+                        {{conversation.user_one.fullname}}
+                    </a>
+                    {%endifequal%}
+                </div>
+            {%endfor%}
+        </div>
+    {%endif%}
+</div>

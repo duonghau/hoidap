@@ -5,6 +5,7 @@ padding: 0px 0px 0px 6px;
 margin: 0px 0px 0px 6px;
 border-left: 1px solid #fff;
 }
+.votes_count,.downvotes_count{border-left: 1px solid #999;}
 .user-list .item img{width: 50%; height: auto; display: block; margin: 0 auto}
 .user-list .item{text-align: center;}
 .question .author .thumb img{width: 30px; height: 30px; margin-right: 10px;}
@@ -78,4 +79,123 @@ border-left: 1px solid #fff;
 .actionBox {
     border-top:1px dotted #bbb;
 }
-span.ui-helper-hidden-accessible{display: none}
+span.ui-helper-hidden-accessible{display: none;}
+#notificationnew, #messagenew{ padding-left: 8px; padding-right: 8px; position: relative;}
+#notificationnew img, #messagenew img{height: 20px; width: auto;}
+span.count_activities {
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    min-width: 8px;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #DC0D17;
+    border-radius: 2px;
+}
+#messages .message,#notifications .notification{
+    padding-bottom: 5px;
+    padding-top: 5px;
+border-bottom: 1px solid #DDD;
+}
+#messages .message a,#notifications .notification a{float: left;}
+#messages .message a.thumb img,#notifications .notification a.thumb img{
+    width: 50px;
+    height: 50px;    
+    margin-right: 10px;
+}
+.clear{ clear: both;}
+#messages .message.unread,#notifications .notification.unread{
+    background: #EDEFF5 none repeat scroll 0% 0%;
+border-color: #D8DEEA;
+}
+#messages .message:hover,#notifications .notification:hover{
+    background: #fff;
+}
+
+.activities{ position: relative;}
+.MessagesFlyout,.NotificationsFlyout{ position: absolute;
+top:40px;
+right: -20px;
+width: 400px;
+height: auto;
+z-index: 100;
+background: #fff;
+border: #ccc 1px solid;
+display: none;
+}
+.MessagesFlyout h4,.NotificationsFlyout h4{ font-size: 12px; font-weight: 700;}
+.MessagesFlyout .activities-header,.NotificationsFlyout .activities-header{ padding:0px 10px;
+border-bottom: 1px solid #ccc;
+margin-bottom: 5px;
+}
+.MessagesFlyout a.seeMore, .NotificationsFlyout a.seeMore{
+    background-color: #F6F7F8;
+border-bottom-left-radius: 3px;
+border-bottom-right-radius: 3px;
+border-top: 1px solid #C5C5C5;
+display: block;
+font-weight: bold;
+padding: 8px;
+position: relative;
+text-align: center;
+z-index: 100;
+}
+#messages.ajax-message a.title,#notifications.ajax-notification a.title{ width: 84%;}
+.activities a.all-read{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#conversation button.send{line-height: 40px;}
+#conversation .conversation{
+    height: 500px;
+    border:1px solid #ccc;
+    margin-bottom: 10px;
+    overflow: scroll;
+    padding: 10px;
+}
+#conversation .conversation .message.item{max-width: 80%;}
+.conversation .message.send .author{ text-align: right;}
+.conversation .message.receive .author{ text-align: left;}
+.conversation .message .message-content{
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.conversation .message.send .message-content{
+    background: blue;
+    color: #fff;
+
+}
+.conversation .message.receive .message-content{
+    background: #ccc;
+    color: #000;
+}
+.beeperNubWrapper{position: relative;}
+.beeperNubWrapper .beeperNub {
+    background-image: url("../images/icon.png");
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-position: -23px -76px;
+    position: absolute;
+    right: 23px;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+}
+.search-results{
+    width: 373px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 10px;
+    display: none;
+    position: absolute;
+    top: 33px;
+    left: 0px;
+    z-index: 100;
+}
+form.navbar-form{ position: relative;}

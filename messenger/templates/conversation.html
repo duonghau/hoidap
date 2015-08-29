@@ -1,0 +1,36 @@
+{%extends "conversation_base.html"%}
+{%load staticfiles%}
+{%block title%}Conversation{%endblock%}
+{%block extra_js%}
+<script type="text/javascript" src="{% static "js/message.js" %}"></script>
+{%endblock%}
+{%block content%}
+<div id="conversation">
+    <div class="conversation">
+        {%if messages%}
+            {%for message in messages%}
+            <div class="message item {%ifequal user.profile message.sender%}pull-right send{%else%}pull-left receive{%endifequal%}">
+                <div class="author"><span>{{message.sender.fullname}}</span></div>
+                <div class="message-content"><span>{{message.content|escape}}</span></div>
+            </div>
+            <div class="clear"></div>
+            {%endfor%}
+        {%endif%}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        <div class="input-group">            
+            <input type="hidden" name="username" value="{{username}}"/>
+            <input type="hidden" name="fullname" value="{{user.profile.fullname}}"/>
+            <textarea class="form-control" name='message'></textarea>
+            <div class="input-group-btn">
+                <button class="btn btn-default send" type="submit" value="Send">
+                    <span class="glyphicon glyphicon-send"></span>
+                    Send
+                </button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

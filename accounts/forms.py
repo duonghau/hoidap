@@ -70,7 +70,7 @@ class UserProfileForm(forms.ModelForm):
     birthday=forms.DateField(widget=forms.widgets.DateInput(format="%m/%d/%Y"))
     class Meta:
         model = UserProfile
-        exclude=('user','rank','follows','followers_count','follows_count')
+        exclude=('user','rank','follows','followers_count','follows_count','follow_tags')
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)

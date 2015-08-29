@@ -1,15 +1,7 @@
 {%extends "base.html"%}
-{%load tag_template%}
-{%load user_template%}
 {%load question_template%}
-{%block sidebar_left%}
-{%if user.is_authenticated%}
-{%mytags%}
-{%endif%}
-{%toptags%}
-{%endblock%}
-{%block sidebar_right%}
-{% top_users %}
+{%block title%}
+Toi hoi
 {%endblock%}
 {%block content%}
 {%if questions%}
@@ -18,5 +10,7 @@
         {%display_question question%}
     {%endfor%}
     </div>
+{%else%}
+<p>You must follow at least a tag or a user to update your home page feed</p>
 {%endif%}
 {%endblock%}

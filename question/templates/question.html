@@ -17,7 +17,7 @@
     <p>{{question.content_bref300}}</p>
     <div class="social row">
         <div class="col-md-2 vote">
-            <button class="btn btn-primary btn-xs vote">
+            <button class="btn btn-default btn-xs vote">
                 <input type="hidden" name="objectid" value="{{ question.pk }}"/>
                 <input type="hidden" name="votetype" value="vote"/>
                 <input type="hidden" name="objecttype" value="question"/>
@@ -29,7 +29,7 @@
             </button>  
         </div>
         <div class="col-md-2 vote">
-            <button class="btn btn-primary btn-xs vote">
+            <button class="btn btn-default btn-xs vote">
                 <input type="hidden" name="objectid" value="{{ question.pk }}"/>
                 <input type="hidden" name="votetype" value="downvote"/>
                 <input type="hidden" name="objecttype" value="question"/>
@@ -41,8 +41,8 @@
             </button>
         </div>
         <div class="col-md-2">
-            <a href="{% url 'question:detail' question.pk question.slug %}#comment" class="btn btn-link btn-xs">
-            <span class="glyphicon glyphicon-comment"></span> Comment({{question.question_answers.all.count}})
+            <a href="{% url 'question:detail' question.pk question.slug %}#answers" class="btn btn-link btn-xs">
+            <span class="glyphicon glyphicon-comment"></span> Answers({{question.question_answers.all.count}})
             </a>
         </div>
         <div class="col-md-6">
@@ -55,3 +55,4 @@
         </div>
     </div>
 </div>
+<hr/>

@@ -1,0 +1,13 @@
+{%if tags%}
+    <div class="widget-title">
+        <h4><span class="glyphicon glyphicon-time"></span>Trending topics</h4>       
+    </div>    
+    <div class="top-tags">
+    {%for tag in tags%}
+        <div class="item">
+        <a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name}}</a>
+        <span class="badge">{{tag.followers_count}}</span>
+        </div>
+    {%endfor%}
+    </div>
+{%endif%}

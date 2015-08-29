@@ -65,6 +65,9 @@ TEMPLATES = [
             os.path.join(BASE_DIR,'templates'),
             os.path.join(BASE_DIR,'accounts/templates'),
             os.path.join(BASE_DIR,'tag/templates'),
+            os.path.join(BASE_DIR,'notification/templates'),
+            os.path.join(BASE_DIR,'question/templates'),
+            os.path.join(BASE_DIR,'messenger/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

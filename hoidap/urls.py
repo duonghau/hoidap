@@ -1,6 +1,6 @@
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
-from .views import Index
+from .views import Index,SearchAjax
 import settings
 urlpatterns = [
     # Examples:
@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^tag/', include('tag.urls',namespace="tag")),
     url(r'^question/', include('question.urls',namespace="question")),
     url(r'^message/', include('messenger.urls', namespace="message")),
+    url(r'^notification/', include('notification.urls', namespace="notification")),
+    url(r'^search/ajax/$',SearchAjax.as_view(),name="searchajax"),
 ]
 #media files
 if settings.DEBUG:

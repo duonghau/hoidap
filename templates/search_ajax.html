@@ -1,0 +1,5 @@
+{%for object in objects%}
+    <div class="item">
+        <a href="{{object.get_absolute_url}}">{{object.get_cname}}: {{object.title}}</a>
+    </div>
+{%endfor%}

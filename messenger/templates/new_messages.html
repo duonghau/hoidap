@@ -1,0 +1,22 @@
+{%if messages%}
+<div id="messages" class="ajax-message">
+    {%for message in messages%}
+        <div class="message item {%if message.read %}read{%else%}unread{%endif%}">
+            <a class="thumb" href="{% url 'message:view_conversation' message.sender.username %}">
+                {%if messages.sender.avatar %}
+                    <img class="img-circle" src="{{ MEDIA_URL}}{{messages.sender.avatar}}"/>
+                {%else%}
+                    <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+                {%endif%}
+            </a>
+            <a class="title" href="{% url 'message:view_conversation' message.sender.username %}">
+                <div>{{message.message_bref}}</div>
+                <div><small>{{message.create}}</small></div>
+            </a>
+            <div class="clear"></div>
+        </div>
+    {%endfor%}
+</div>
+{%else%}
+No messages found
+{%endif%}

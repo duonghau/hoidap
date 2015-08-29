@@ -1,12 +1,15 @@
+from __future__ import unicode_literals
 import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.views.generic import View
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Question, Answer
 from .forms import AnswerFrom,QuestionForm
 from tag.models import Tag
+from notification.models import Notification
 from utils.login_require import LoginRequiredMixin
 # Create your views here.
 
@@ -16,7 +19,7 @@ class QuestionView(View):
         try:
             question=Question.objects.get(pk=questionid)
             args['question']=question
-            answers=question.question_answers.all().order_by("-create")
+            answers=question.question_answers.all().order_by("-rank")
             args['answers']=answers
             if request.user.is_authenticated():                
                 answerform=AnswerFrom()
@@ -39,10 +42,39 @@ class AddQuestionView(LoginRequiredMixin,View):
             question.author=request.user.profile
             question.save()
             for tagtitle in form.cleaned_data['tags']:
-                tag,created=Tag.objects.get_or_create(name=tagtitle)
+                try:
+                    tag=Tag.objects.get(name=tagtitle)
+                except ObjectDoesNotExist:
+                    tag=Tag()
+                    tag.name=tagtitle
+                    tag.save()
                 question.tags.add(tag)
                 tag.save()
+            question.author.rank+=0.01
             question.save()
+            question.author.save()
+            #notification
+            users_notification=[]
+            for tag in question.tags.all():
+                if tag.tag_followers.all().count() > 0:
+                    for profile in tag.tag_followers.all():
+                        if profile!=request.user.profile and profile not in users_notification:
+                            #create notification
+                            notification=Notification()
+                            notification.sender=request.user.profile
+                            notification.recipient=profile
+                            notification.action='addquestion'
+                            notification.content_object=question
+                            notification.save()
+                            users_notification.append(profile)
+            for follower in request.user.profile.followers.all():
+                if follower not in users_notification:
+                    notification=Notification()
+                    notification.sender=request.user.profile
+                    notification.recipient=follower
+                    notification.action='addquestion'
+                    notification.content_object=question
+                    notification.save()
             return HttpResponseRedirect(reverse('question:detail',args=(question.pk, question.slug)))
         else:
             args={}
@@ -59,6 +91,16 @@ class AddAnswerView(LoginRequiredMixin,View):
                     question=Question.objects.get(pk=questionid)
                     answer=Answer(content=form.cleaned_data['content'], question=question, author=request.user.profile)
                     answer.save()
+                    answer.author.rank+=0.01
+                    answer.author.save()
+                    #notification
+                    if question.author!=request.user.profile:
+                        notification=Notification()
+                        notification.sender=request.user.profile
+                        notification.recipient=question.author
+                        notification.action="answer"
+                        notification.content_object=answer
+                        notification.save()
                 except ObjectDoesNotExist:
                     pass
         return HttpResponseRedirect(reverse('question:detail',args=(questionid, slug)))
@@ -83,6 +125,8 @@ class VoteView(View):
                         else:
                             currentobject.votes.add(request.user.profile)
                             currentobject.save()
+                            currentobject.author.rank+=0.01
+                            currentobject.author.save()
                             message['status']='OK'
                             message['message']=""
                             message['votes_count']=currentobject.votes_count
@@ -91,11 +135,21 @@ class VoteView(View):
                             message['status']='False'
                             message['message']="You can downvote only one time"
                         else:
-                            currentobject.downvotes.add(request.user.profile)
+                            currentobject.downvotes.add(request.user.profile)                            
                             currentobject.save()
+                            currentobject.author.rank-=0.05
+                            currentobject.author.save()
                             message['status']='OK'
                             message['message']=""
                             message['votes_count']=currentobject.downvotes_count
+                    #notification
+                    if currentobject.author!=request.user.profile:
+                        notification=Notification()
+                        notification.action=votetype
+                        notification.sender=request.user.profile
+                        notification.recipient=currentobject.author
+                        notification.content_object=currentobject
+                        notification.save()
                 else:
                     message['status']='False'
                     message['message']="{} isn't exist".format(objecttype)

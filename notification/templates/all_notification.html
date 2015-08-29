@@ -1,0 +1,26 @@
+{%extends "base.html"%}
+{%block title%}Notifications{%endblock%}
+{%block content%}
+<h4>Your notifications</h4>
+<hr/>
+{%if notifications%}
+    <div id="notifications">
+    {%for notification in notifications%}
+        <div class="notification item {%if not notification.is_read %}unread{%endif%}">
+            <a class="thumb" href="{% url 'notification:view' notification.pk %}">
+                {%if profile.avatar %}
+                    <img class="img-circle" src="{{ MEDIA_URL}}{{notification.sender.avatar}}"/>
+                {%else%}
+                    <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
+                {%endif%}
+            </a>
+            <a href="{% url 'notification:view' notification.pk %}">
+                <div>{{notification.notification_string}}</div>
+                <div><small>{{notification.create}}</small></div>
+            </a>
+            <div class="clear"></div>
+        </div>
+    {%endfor%}
+    </div>
+{%endif%}
+{%endblock%}

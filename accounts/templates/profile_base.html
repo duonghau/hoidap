@@ -33,9 +33,10 @@
     {%csrf_token%}
     {%if profile %}
         <h3>{{profile.fullname|escape}}</h3>
-        <p>{{profile.bio|escape}}</p>
+        <p>{{profile.bio|escape}}</p>        
             {% if profile.username != user.username and user.is_authenticated%}
-            <div class="follow">
+            <div class="row">
+            <div class="follow col-md-3">
                 <button class="btn btn-primary btn-xs followuser">
                     <input type="hidden" name="follow" value="{{ profile.username }}"/>
                     <span class="glyphicon glyphicon-plus"></span>
@@ -48,7 +49,11 @@
                     </span>
                     <span class="followers_count">{{profile.followers_count}}</span>
                 </button>
-            </div>            
+            </div>
+            <div class="col-md-3 send-message">
+                <a href="{% url 'message:view_conversation' profile.username %}">Message</a>
+            </div>
+            </div>         
             {% endif %}
         <hr/>
         {%block profile_content%}
@@ -56,14 +61,4 @@
     {%else%}
         <p style="text-warning">User not exist</p>
     {%endif%}    
-{% endblock %}
-{% block sidebar_right %}
-{%if profile %}
-{# {% if profile.interests %}
-    <h4>Interests</h4>
-    {% for tag in profile.interests.all %}
-        <a href="{% url 'tag' tag.name %}">{{tag.name|escape}}</a>
-    {% endfor %}
-{% endif %} #}
-{%endif %}
 {% endblock %}

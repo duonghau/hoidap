@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import json
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -43,7 +44,7 @@ class TagSearchAjaxView(View):
     def post(self, request):
         term=request.POST.get('term','')
         terms={}
-        tags=Tag.objects.filter(name__contains=term)
+        tags=Tag.objects.filter(name__icontains=term)
         for tag in tags:
             terms.update({tag.id:tag.name})
         return HttpResponse(json.dumps(terms), content_type = "application/json")

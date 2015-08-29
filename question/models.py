@@ -1,4 +1,4 @@
-
+from __future__ import unicode_literals
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.core.urlresolvers import reverse
@@ -13,6 +13,7 @@ class CommonFields(models.Model):
     modify=models.DateTimeField(auto_now=True)
     votes_count=models.IntegerField(default=0)
     downvotes_count=models.IntegerField(default=0)
+    rank=models.FloatField(default=0)
 
     @property
     def content_bref(self):
@@ -33,7 +34,7 @@ class Question(CommonFields):
     downvotes=models.ManyToManyField(UserProfile, related_name='user_question_downvotes')
     
     def __str__(self):
-        return self.title
+        return self.title    
 
     def save(self,*args,**kwargs):
         if not self.pk:
@@ -41,10 +42,14 @@ class Question(CommonFields):
         if self.pk:
             self.votes_count=self.votes.all().count()
             self.downvotes_count=self.downvotes.all().count()
+            self.rank=self.votes_count*0.01-self.downvotes_count*0.05
         super(Question,self).save(*args,**kwargs)
 
     def get_absolute_url(self):
         return reverse('question:detail', args=(self.pk, self.slug))
+
+    def get_cname(self):
+        return self.__class__.__name__
 
 class Answer(CommonFields):
     author=models.ForeignKey(UserProfile, related_name='user_answers')
@@ -58,5 +63,6 @@ class Answer(CommonFields):
     def save(self, *args, **kwargs):
         if self.pk:
             self.votes_count=self.votes.all().count()
-            self.downvotes_count=self.downvotes.all().count()        
+            self.downvotes_count=self.downvotes.all().count()
+            self.rank=self.votes_count*0.01-self.downvotes_count*0.05
         super(Answer,self).save(*args,**kwargs)

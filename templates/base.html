@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{%load tag_template%}
+{%load user_template%}
+{%load question_template%}
 <html>
 <head>
     {# title #}
@@ -33,7 +36,14 @@
         <div class="container">
             <div class="row">
                 <div class="sidebar_left col-md-2">
-                    {%block sidebar_left%}                
+                    {%block sidebar_left%}
+                    {%if user.is_authenticated%}
+                    {%mytags%}
+                    <hr/>
+                    {%endif%}
+                    {% toptags %}
+                    <hr/>
+                    {% trending_tags %}             
                     {%endblock%}
                 </div>
                 <div class="content col-md-8">
@@ -42,6 +52,9 @@
                 </div>
                 <div class="sidebar_right col-md-2">
                     {%block sidebar_right%}
+                    {% top_users %}
+                    <hr/>
+                    {% trending_questions %}
                     {%endblock%}
                 </div>
             </div>

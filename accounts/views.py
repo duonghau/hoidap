@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import json
 from django.shortcuts import render
 from django.views.generic import View
@@ -133,6 +134,7 @@ class FollowUser(View):
                     if user.profile not in request.user.profile.follows.all():
                         request.user.profile.follows.add(user.profile)
                         request.user.profile.save()
+                        user.profile.rank+=0.05
                         user.profile.save()
                         message['status']='OK'
                         message['message']=''
@@ -141,6 +143,7 @@ class FollowUser(View):
                     else:
                         request.user.profile.follows.remove(user.profile)
                         request.user.profile.save()
+                        user.profile.rank-=0.05
                         user.profile.save()
                         message['status']='OK'
                         message['followers_count']=user.profile.followers_count

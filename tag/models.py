@@ -1,4 +1,6 @@
+from __future__ import unicode_literals
 from time import time
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 # Create your models here.
@@ -17,7 +19,10 @@ class Tag(models.Model):
     @property
     def description_bref(self):
         return self.description[:100]
-    
+
+    def title(self):
+        return self.name
+
     def save(self,*args,**kwargs):
         if not self.pk:
             self.slug=slugify(self.name)
@@ -28,3 +33,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('tag:tag_detail', args=(self.pk, self.slug))
+
+    def get_cname(self):
+        return self.__class__.__name__

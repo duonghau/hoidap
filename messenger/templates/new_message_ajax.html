@@ -1,0 +1,9 @@
+{%if messages%}
+    {%for message in messages%}
+    <div class="message item {%ifequal user.profile message.sender%}pull-right send{%else%}pull-left receive{%endifequal%}">
+        <div class="author"><span>{{message.sender.fullname}}</span></div>
+        <div class="message-content"><span>{{message.content|escape}}</span></div>
+    </div>
+    <div class="clear"></div>
+    {%endfor%}
+{%endif%}

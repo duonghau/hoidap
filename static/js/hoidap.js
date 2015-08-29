@@ -25,6 +25,16 @@ $.ajaxSetup({
      } 
 });
 $(document).ready(function() {
+    $(document).mouseup(function (e){
+        var container = $(".Flyout");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.fadeOut('fast');
+        }
+    });
+
     $('a#edit_mytags').on('click', function(event) {
         event.preventDefault();
         if($(this).text()=='Edit'){
@@ -81,5 +91,70 @@ $(document).ready(function() {
                 }
             },
         });
+    });
+    $('a#notificationnew').on('click', function(event) {
+        var li_parent=$(this).parent();
+        var flyout=li_parent.find('.NotificationsFlyout');
+        flyout.fadeIn('slow');
+        var result=li_parent.find('.results');
+        event.preventDefault();
+        $.ajax({
+            "type": "GET",            
+            "url": "/notification/new/",
+            "success": function(results) {
+                result.html(results);
+            },
+        });
+    });
+    $('a#markallread').on('click', function(event) {
+        event.preventDefault();
+        var flyout=$(this).parent().parent();        
+        flyout.fadeIn('slow');
+        var result=flyout.find('.results');
+        event.preventDefault();
+        $.ajax({
+            "type": "GET",        
+            "url": "/notification/markallread/",
+            "success": function(results) {
+                result.html(results);
+            },
+        });
+    });
+    $('a#messagenew').on('click', function(event) {
+        var li_parent=$(this).parent();
+        var flyout=li_parent.find('.MessagesFlyout');
+        flyout.fadeIn('slow');
+        var result=li_parent.find('.results');
+        event.preventDefault();
+        $.ajax({
+            "type": "GET",            
+            "url": "/message/new/",
+            "success": function(results) {
+                result.html(results);
+            }
+        });
+    });
+    //search ajax
+    $('#searchtext').keyup(function(event) {
+        /* Act on the event */
+        var searchtext=$(this);
+        var search_results=$('.search-results');
+        search_results.fadeIn('fast');
+        if (searchtext.val().length >=3){
+            var data={'term':searchtext.val()}
+            $.ajax({
+                url: '/search/ajax/',
+                type: 'GET',
+                data: data,
+                success:function(result) {
+                    console.log(result.length);
+                    if (result.length >0){
+                        search_results.html(result);
+                    }else{
+                        search_results.html('<span>No results found</span>');
+                    }
+                }
+            })
+        }
     });
 });
