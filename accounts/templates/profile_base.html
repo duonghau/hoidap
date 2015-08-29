@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
 {%endblock%}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Hồ sơ{% endblock %}
 
 {% block sidebar_left %}
 {%if profile %}
@@ -14,18 +14,18 @@
         <img class="img-circle" src="{{ MEDIA_URL}}/profiles/noimage.png"/>
     {%endif%}
     <hr/>
-    <h4>Infos</h4>
-    <p>Rank: {{profile.rank}}</p>
+    <h4>Thông tin</h4>
+    <p>Điểm : {{profile.rank}}</p>
     <p><a href="{{profile.website}}">{{profile.website|escape}}</a></p>
-    <p>Address:{{profile.address|escape}}</p>
-    <p>Birthday:{{profile.birthday|escape}}</p>
-    <p>Gender: {{profile.gender|escape}}</p>
+    <p>Địa chỉ : {{profile.address|escape}}</p>
+    <p>Ngày sinh : {{profile.birthday|escape}}</p>
+    <p>Giới tính : {{profile.gender|escape}}</p>
     <hr/>
-    <h4>FEEDS</h4>
-    <p>Questions <span class="text-info">{{profile.questions_count}}</span></p>
-    <p>Answers <span class="text-info">{{profile.answers_count}}</span></p>
-    <p>Followers <span class="text-info">{{profile.followers_count}}</span></p>
-    <p>Follows <span class="text-info">{{profile.follows_count}}</span></p>
+    <h4>Dòng tin</h4>
+    <p>Câu hỏi : <span class="text-info">{{profile.questions_count}}</span></p>
+    <p>Trả lời : <span class="text-info">{{profile.answers_count}}</span></p>
+    <p>Ngừoi theo dõi : <span class="text-info">{{profile.followers_count}}</span></p>
+    <p>Theo dõi : <span class="text-info">{{profile.follows_count}}</span></p>
 {%endif%}
 {% endblock %}
 
@@ -42,16 +42,16 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <span class="follow_label">
                         {% if user.profile in profile.followers.all%}
-                            Unfollow
+                            Bỏ theo dõi
                         {%else%}
-                            Follow
+                            Theo dõi
                         {%endif%}
                     </span>
                     <span class="followers_count">{{profile.followers_count}}</span>
                 </button>
             </div>
             <div class="col-md-3 send-message">
-                <a href="{% url 'message:view_conversation' profile.username %}">Message</a>
+                <a href="{% url 'message:view_conversation' profile.username %}">Gửi tin nhắn</a>
             </div>
             </div>         
             {% endif %}
@@ -59,6 +59,6 @@
         {%block profile_content%}
         {%endblock%}
     {%else%}
-        <p style="text-warning">User not exist</p>
+        <p style="text-warning">User không tồn tại.</p>
     {%endif%}    
 {% endblock %}

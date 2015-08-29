@@ -21,7 +21,7 @@
                 </a>
             </div>         
             <p>{{question.content|escape}}</p>
-            <p><span class="text-info"><small>Last modify: {{question.modify|escape}}</small></span></p>
+            <p><span class="text-info"><small>Chỉnh sửa: {{question.modify|escape}}</small></span></p>
             <hr/>
             <div class="social row">
                 <div class="col-md-2 vote">
@@ -31,7 +31,7 @@
                         <input type="hidden" name="objecttype" value="question"/>
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         <span class="follow_label">
-                        Vote
+                        Thích
                         </span>
                         <span class="votes_count">{{question.votes_count}}</span>
                     </button>  
@@ -43,14 +43,14 @@
                         <input type="hidden" name="objecttype" value="question"/>
                         <span class="glyphicon glyphicon-thumbs-down"></span>
                         <span class="follow_label">
-                        Downvote
+                        Không thích
                         </span>
                         <span class="votes_count">{{question.downvotes_count}}</span>
                     </button>
                 </div>
                 <div class="col-md-2">
                     <a href="{% url 'question:detail' question.pk question.slug %}#answers" class="btn btn-link btn-xs">
-                    <span class="glyphicon glyphicon-comment"></span> Answers({{question.question_answers.all.count}})
+                    <span class="glyphicon glyphicon-comment"></span> Câu trả lời({{question.question_answers.all.count}})
                     </a>
                 </div>
                 <div class="col-md-6">
@@ -65,7 +65,7 @@
             <hr/>
                 <div id="answers" class="answers detailBox">
                     <div class="titleBox">
-                      <label>Answers</label>
+                      <label>Trả lời</label>
                     </div>                    
                     {%if answerform%}
                         <div class="commentBox">
@@ -85,7 +85,7 @@
            
         </div>
     {%else%}
-        <p><span class="text-danger">Question is not exist</span></p>
+        <p><span class="text-danger">Câu hỏi không tồn tại</span></p>
     {%endif%}
     
 {%endblock%}

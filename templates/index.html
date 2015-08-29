@@ -1,7 +1,7 @@
 {%extends "base.html"%}
 {%load question_template%}
 {%block title%}
-Toi hoi
+Trang chủ - Tôi hỏi
 {%endblock%}
 {%block content%}
 {%if questions%}
@@ -11,6 +11,6 @@ Toi hoi
     {%endfor%}
     </div>
 {%else%}
-<p>You must follow at least a tag or a user to update your home page feed</p>
+<p>Bạn cần theo dõi ít nhất một chủ đề(topic) hoặc một người khác để nhận thông tin cập nhật.</p>
 {%endif%}
 {%endblock%}

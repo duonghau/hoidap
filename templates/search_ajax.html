@@ -1,5 +1,7 @@
 {%for object in objects%}
     <div class="item">
-        <a href="{{object.get_absolute_url}}">{{object.get_cname}}: {{object.title}}</a>
+        <a href="{{object.get_absolute_url}}">
+        {%ifequal object.get_cname 'Question'%}Câu hỏi{%else%}Chủ đề{%endifequal%} : 
+        {{object.title}}</a>
     </div>
 {%endfor%}

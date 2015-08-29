@@ -1,12 +1,12 @@
 {%extends "base.html"%}
 {% load crispy_forms_tags %}
 {%block title%}
-Login
+Đăng nhập - Tôi hỏi
 {%endblock%}
 {%block content%}
 <div class="row">
     {%if message%}
-        <p class="text-warning">{{message}}</p>
+        <p class="text-danger">{{message}}</p>
     {%endif%}
     <div class="col-md-6">
         {% crispy form%}

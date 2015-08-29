@@ -4,7 +4,7 @@
 {%block extra_js%}
 <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
 {%endblock%}
-{%block title%}Tag: {{tag.name|escape}}{%endblock%}
+{%block title%}Chủ đề : {{tag.name|escape}}{%endblock%}
 {%block content%}
     {%if tag%}
         <div class="tag_detail">
@@ -25,9 +25,9 @@
                                 <span class="glyphicon glyphicon-plus"></span>
                                 <span class="follow_label">
                                     {% if user.profile in tag.tag_followers.all%}
-                                        Unfollow
+                                        Bỏ theo dõi
                                     {%else%}
-                                        Follow
+                                        Theo dõi
                                     {%endif%}
                                 </span>
                                 <span class="followers_count">{{tag.followers_count}}</span>
@@ -36,7 +36,7 @@
                     {% endif %}
                     <div class="des">{{tag.description|escape}}</div>
                     <div class="questions_count">
-                        <p>Questions: <span class="text-info">{{tag.questions_count|escape}}</span></p>
+                        <p>Câu hỏi: <span class="text-info">{{tag.questions_count|escape}}</span></p>
                     </div>              
                 </div>
             </div>
@@ -51,6 +51,6 @@
         {%endif%}
         
     {%else%}
-        <p class="text-danger">Tag not exist</p>
+        <p class="text-danger">Chủ đề không tồn tại</p>
     {%endif%}
 {%endblock%}

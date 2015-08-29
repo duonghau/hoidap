@@ -2,17 +2,17 @@
 {%load user_template %}
 {%block profile_content%}
 {%if profile.followers.all %}
-<h4>Followers</h4>
+<h4>Ngừoi theo dõi</h4>
     {% list_users profile.followers.all%}    
     <hr/>
 {%endif%}
 {%if profile.follows.all %}
-<h4>Followings</h4>
+<h4>Theo dõi</h4>
     {% list_users profile.follows.all%}    
     <hr/>
 {%endif%}
 {%if profile.user_questions%}
-    <h4>Questions</h4>
+    <h4>Câu hỏi</h4>
     <div class="questions">
         {%for question in profile.user_questions.all%}
             <div class="item">
@@ -22,11 +22,11 @@
     </div>
 {%endif%}
 {%if profile.user_answers%}
-    <h4>Answers</h4>
+    <h4>Trả lời</h4>
     <div class="answers">
         {%for answer in profile.user_answers.all%}
             <div class="item">
-            Answer on:
+            Trả lời:
                 <a href="{% url 'question:detail' answer.question.pk answer.question.slug %}">{{answer.question.title}}</a>
             </div>
         {%endfor%}

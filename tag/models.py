@@ -32,7 +32,7 @@ class Tag(models.Model):
         super(Tag,self).save(*args,**kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name.encode('utf8')
 
     def get_absolute_url(self):
         return reverse('tag:tag_detail', args=(self.pk, self.slug))

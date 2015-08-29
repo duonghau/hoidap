@@ -42,12 +42,12 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/tagit.ui-zendesk.css" %}">    
 {%endblock%}
 {%load crispy_forms_tags%}
-{%block title%}Add question{%endblock%}
+{%block title%}Đặt câu hỏi{%endblock%}
 {%block content%}
 <form action="/question/add/" id="question" method="post">
 {%csrf_token%}
     <div id="div_id_title" class="form-group">
-        <label for="id_title" class="control-label  requiredField">Question
+        <label for="id_title" class="control-label  requiredField">Câu hỏi
             <span class="asteriskField">*</span> 
         </label> 
         <div class="controls ">
@@ -55,19 +55,19 @@
         </div>
     </div>
     <div id="div_id_content" class="form-group">
-        <label for="id_content" class="control-label ">Content</label>
+        <label for="id_content" class="control-label ">Mô tả</label>
         <div class="controls ">
             <textarea class="textarea form-control" cols="40" id="id_content" name="content" rows="10"></textarea>
         </div>
     </div>
     <input class="textinput textInput form-control" id="id_tags" name="tags" type="hidden">
     <div class="form-group">
-        <label for="topics" class="control-label ">Topics</label>
+        <label for="topics" class="control-label ">Chủ đề</label>
         <ul id="topics"></ul>
     </div>    
     <div class="form-group">
         <div class="controls ">
-            <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit-id-submit">
+            <input type="submit" name="submit" value="Đăng câu hỏi" class="btn btn-primary" id="submit-id-submit">
         </div>
     </div>
 </form>

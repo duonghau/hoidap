@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from time import time
 from django.db import models
@@ -14,7 +15,7 @@ class UserProfile(models.Model):
     avatar=models.ImageField(upload_to=get_profile_url,blank=True)
     address=models.CharField(blank=True, max_length=255)
     birthday=models.DateField(null=True)
-    gender=models.CharField(blank=True, choices=(('Male','Male'),('Female','Female')), max_length=10)
+    gender=models.CharField(blank=True, choices=(('Nam','Nam'),('Nữ','Nữ')), max_length=10)
     bio=models.TextField(blank=True)
     rank=models.FloatField(default=0)    
     follows_count=models.IntegerField(default=0)

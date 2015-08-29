@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -23,18 +24,17 @@ class Notification(models.Model):
         string=""
         if self.action=='vote' or self.action=='downvote':
             if self.content_object.__class__.__name__.lower()=='answer':
-                string="{} {} your answer: \"{}\"".format(self.sender.fullname, 
+                string="{} {} bình luận: \"{}\"".format(self.sender.fullname, 
                 self.action,self.content_object.content[:50])
             elif self.content_object.__class__.__name__.lower()=='question':
-                string= "{} {} your question: \"{}\"".format(self.sender.fullname, 
+                string= "{} {} câu hỏi: \"{}\"".format(self.sender.fullname, 
                 self.action,self.content_object.title[:50])
         elif self.action=='answer':
-            string="{} {} on your question: \"{}\"".format(self.sender.fullname,
-                self.action,self.content_object.content[:50])
+            string="{} trả lời câu hỏi: \"{}\"".format(self.sender.fullname,self.content_object.content[:50])
         elif self.action=="addquestion":
-            string="{} add a question:\"{}\"".format(self.sender.fullname, 
+            string="{} đăng một câu hỏi:\"{}\"".format(self.sender.fullname, 
                 self.content_object.title[:50])
-        return string
+        return string.encode('utf8')
     @property
     def notification_url(self):
         url=""

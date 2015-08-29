@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
 from django.shortcuts import render
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from utils.login_require import LoginRequiredMixin
 
 from .forms import RegistrationForm,LoginForm,UserProfileForm
@@ -54,21 +56,23 @@ class LoginView(View):
         args={}
         form=LoginForm(data=request.POST)
         if form.is_valid():
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            if user is None:
-                user=User.objects.get(email=form.cleaned_data['username'])
-                if user is not None and user.check_password(form.cleaned_data['password']):                    
-                    user=authenticate(username=user.username, password=form.cleaned_data['password'])
-                else:
+            try:
+                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            except ObjectDoesNotExist:
+                try:
+                    user=User.objects.get(email=form.cleaned_data['username'])
+                    if user is not None and user.check_password(form.cleaned_data['password']):                    
+                        user=authenticate(username=user.username, password=form.cleaned_data['password'])
+                except ObjectDoesNotExist:
                     user=None
             if user is not None:
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
                 else:
-                    args['message']='User is inactive'
+                    args['message']='Bạn đang bị vô hiệu hóa.'
             else:
-                args['message']='Log in detail is incorrect'           
+                args['message']='Tên đăng nhập hoặc mật khẩu không đúng.'
         args['form']=form
         return render(request,'login.html',args)
 class LogoutView(LoginRequiredMixin,View):
@@ -139,7 +143,7 @@ class FollowUser(View):
                         message['status']='OK'
                         message['message']=''
                         message['followers_count']=user.profile.followers_count
-                        message['label']='Unfollow'
+                        message['label']='Bỏ theo dõi'
                     else:
                         request.user.profile.follows.remove(user.profile)
                         request.user.profile.save()
@@ -147,13 +151,13 @@ class FollowUser(View):
                         user.profile.save()
                         message['status']='OK'
                         message['followers_count']=user.profile.followers_count
-                        message['label']='Follow'
+                        message['label']='Theo dõi'
                         message['message']=''
                 except User.DoesNotExist:
                     message['status']='False'
-                    message['message']='user not exit'       
+                    message['message']='User không tồn tại'       
         else:
-            message['message']='You must login first'
+            message['message']='Bạn cần đăng nhập'
             message['status']='False'
         return HttpResponse(json.dumps(message), content_type = "application/json")
 
@@ -173,7 +177,7 @@ class FollowTag(View):
                         message['status']='OK'
                         message['message']=''
                         message['followers_count']=tag.followers_count
-                        message['label']='Unfollow'
+                        message['label']='Bỏ theo dõi'
                     else:
                         #unfollow
                         request.user.profile.follow_tags.remove(tag)
@@ -182,15 +186,15 @@ class FollowTag(View):
                         message['status']='OK'
                         message['message']=''
                         message['followers_count']=tag.followers_count
-                        message['label']='Follow'
+                        message['label']='Theo dõi'
                 except Tag.DoesNotExist:
                     message['status']='False'
-                    message['message']='Tag is not exit'
+                    message['message']='Chủ đề không tồn tại'
             else:
-                message['message']='Tagid is invalid'
+                message['message']='Chủ đề không tồn tại'
                 message['status']='False'
         else:
-            message['message']='You must login first'
+            message['message']='Bạn cần đăng nhập'
             message['status']='False'
         return HttpResponse(json.dumps(message), content_type = "application/json")
 

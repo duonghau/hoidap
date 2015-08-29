@@ -17,10 +17,10 @@ class CommonFields(models.Model):
 
     @property
     def content_bref(self):
-        return self.content[:100]
+        return self.content[:100].encode('utf8')
     @property
     def content_bref300(self):
-        return self.content[:300]
+        return self.content[:300].encode('utf8')
     
     class Meta:
         abstract = True
@@ -34,7 +34,7 @@ class Question(CommonFields):
     downvotes=models.ManyToManyField(UserProfile, related_name='user_question_downvotes')
     
     def __str__(self):
-        return self.title    
+        return self.title.encode('utf8')
 
     def save(self,*args,**kwargs):
         if not self.pk:
@@ -58,7 +58,7 @@ class Answer(CommonFields):
     downvotes=models.ManyToManyField(UserProfile, related_name='user_answer_downvotes')
     
     def __str__(self):
-        return self.content[:100]
+        return self.content[:100].encode('utf8')
 
     def save(self, *args, **kwargs):
         if self.pk:

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
 from django.shortcuts import render
@@ -121,7 +122,7 @@ class VoteView(View):
                     if votetype=="vote":
                         if request.user.profile in currentobject.votes.all():
                             message['status']='False'
-                            message['message']="You can vote only one time"
+                            message['message']="Bạn chỉ được thích một lần"
                         else:
                             currentobject.votes.add(request.user.profile)
                             currentobject.save()
@@ -133,7 +134,7 @@ class VoteView(View):
                     elif votetype=="downvote":
                         if request.user.profile in currentobject.downvotes.all():
                             message['status']='False'
-                            message['message']="You can downvote only one time"
+                            message['message']="Bạn chỉ được không thích một lần"
                         else:
                             currentobject.downvotes.add(request.user.profile)                            
                             currentobject.save()
@@ -152,12 +153,12 @@ class VoteView(View):
                         notification.save()
                 else:
                     message['status']='False'
-                    message['message']="{} isn't exist".format(objecttype)
+                    message['message']="{} không tồn tại".format(objecttype)
             else:
                 message['status']='False'
-                message['message']='Informations is incorrect'
+                message['message']='Thông tin không chính xác'
         else:
             message['status']='False'
-            message['message']='You must login for this action'
+            message['message']='Bạn cần đăng nhập'
         return HttpResponse(json.dumps(message), content_type = "application/json")
 

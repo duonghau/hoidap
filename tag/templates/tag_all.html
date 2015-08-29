@@ -1,20 +1,20 @@
 {%extends "tag_base.html"%}
 {% load staticfiles %}
-{%block title%}All tags{%endblock%}
+{%block title%}Tất cả chủ đề{%endblock%}
 {%block extra_js%}
     <script type="text/javascript" src="{% static "js/follow.js" %}"></script>
 {%endblock%}
 {%block content%}
     {%if tags %}
         <div class="tags">
-            <h4>All tags</h4>
+            <h4>Tất cả chủ đề</h4>
             <hr/>
             <div class="row">
             {%for tag in tags %}
                 <div class="item col-md-3">
                     <h4><a href="{% url 'tag:tag_detail' tag.pk tag.slug %}">{{tag.name|escape}}</a></h4>
                     <span class="questions_count">
-                        Questions: {{tag.questions_count}}
+                        Câu hỏi: {{tag.questions_count}}
                     </span>
                     {%if user.is_authenticated%}
                         <div class="follow">
@@ -23,9 +23,9 @@
                                 <span class="glyphicon glyphicon-plus"></span>
                                 <span class="follow_label">
                                     {% if user.profile in tag.tag_followers.all%}
-                                        Unfollow
+                                        Bỏ theo dõi
                                     {%else%}
-                                        Follow
+                                        Theo dõi
                                     {%endif%}
                                 </span>
                                 <span class="followers_count">{{tag.followers_count}}</span>
@@ -37,6 +37,6 @@
              </div>
         </div>
     {%else%}
-        <p class="text-danger">No tags found</p>
+        <p class="text-danger">Không tìm thấy chủ đề</p>
     {%endif%}
 {%endblock%}

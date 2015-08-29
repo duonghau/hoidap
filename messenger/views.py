@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
 from datetime import datetime
@@ -40,10 +41,10 @@ class SendMessageView(View):
                     args['message']="" 
             else:
                 args['status']="False"
-                args['message']='User name is not valide'
+                args['message']='Không tồn tại user'
         else:
             args['status']="False"
-            args['message']='You must login'
+            args['message']='Bạn cần đăng nhập'
         return HttpResponse(json.dumps(args), content_type="application/json")
 
 class ConversationView(LoginRequiredMixin,View):

@@ -1,17 +1,18 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Question
 class AnswerFrom(forms.Form):
-    content=forms.CharField(widget=forms.Textarea(attrs={'rows': 6}), label='Answer')
+    content=forms.CharField(widget=forms.Textarea(attrs={'rows': 6}), label='Trả lời')
     def __init__(self, *args, **kwargs):
         super(AnswerFrom, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'answer'
         self.helper.form_method = 'post'
         self.helper.form_action = 'answer/'
-        self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.add_input(Submit('submit', 'Trả lời'))
 
 class QuestionForm(forms.Form):
     title=forms.CharField(required=True, label='Question')
